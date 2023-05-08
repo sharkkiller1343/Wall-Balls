@@ -11,10 +11,7 @@ class Intro extends Phaser.Scene {
                 duration: 1950,
                 repeat: -1,
         })        
-        this.input.on('pointerdown', () => {
-            this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('game'));
-        });
+        this.input.on('pointerdown',() => this.scene.start('game'));
     }
 }
 
