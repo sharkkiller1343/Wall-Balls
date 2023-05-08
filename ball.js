@@ -18,15 +18,4 @@ class BallScene extends Phaser.Scene {
         this.add.rectangle(this.w * 0.75, 0, this.w * 0.25, this.h).setOrigin(0, 0).setFillStyle(0);
         this.onEnter();
     }
-
-    gotoScene(key) {
-        this.cameras.main.fade(this.transitionDuration, 0, 0, 0);
-        this.time.delayedCall(this.transitionDuration, () => {
-            this.scene.start(key, { inventory: this.inventory });
-        });
-    }
-
-    onEnter() {
-        console.warn('This BallScene did not implement onEnter():', this.constructor.name);
-    }
 }

@@ -22,6 +22,6 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro],
+    scene: [Intro], //Intro, Game
     title: "Wall Ball Game",
 });
