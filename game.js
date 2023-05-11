@@ -15,6 +15,12 @@ class Intro extends Phaser.Scene {
     }
 }
 
+class Game extends Phaser.Scene {
+    constructor() {
+        super('game')
+    }
+}
+
 const game = new Phaser.Game({
     scale: {
         mode: Phaser.Scale.FIT,
