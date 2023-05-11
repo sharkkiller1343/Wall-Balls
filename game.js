@@ -19,6 +19,13 @@ class Game extends Phaser.Scene {
     constructor() {
         super('game')
     }
+    preload(){
+        this.load.image('ball', 'assets/ball.png');
+        this.load.image('paddle', 'assets/paddle.png');
+    }
+    create() {
+        this.rectangle1 = this.add.rectangle(1620,540,600,1080,'0xADD8E6');
+    }
 }
 
 const game = new Phaser.Game({
@@ -28,6 +35,6 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro], //Intro, Game
+    scene: [Game], //Intro, Game
     title: "Wall Ball Game",
 });
