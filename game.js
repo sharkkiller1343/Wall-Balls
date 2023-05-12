@@ -3,8 +3,9 @@ class Intro extends Phaser.Scene {
         super('intro')
     }
     create() {
-        this.add.text(400,100, "WALL BALL").setFontSize(200);
-        this.text1 = this.add.text(600,800, "Click anywhere to begin").setFontSize(50);
+        this.add.text(400,200, "WALL BALL").setFontSize(200);
+        this.add.text(100,500, "Use the left and right arrow key to move").setFontSize(70);
+        this.text1 = this.add.text(600,700, "Click anywhere to begin").setFontSize(50);
         this.tweens.add({
             targets: this.text1,
                 alpha: {from:0, to:1},
@@ -78,7 +79,7 @@ class Game extends Phaser.Scene {
         }
 
         if(ball1.body.blocked.up) {
-            this.score += 1;
+            this.score += 10;
             this.scorelabel.text = "SCORE " + this.score;
         }
 
@@ -90,6 +91,10 @@ class Game extends Phaser.Scene {
             ball1.setVelocityY(0);
         }
         paddle1.body.setVelocityX(0);
+
+        if (this.score == 10) {
+            this.add.ball1
+        }
 
         if (cursors.left.isDown) {
             paddle1.body.setVelocityX(-1000);
