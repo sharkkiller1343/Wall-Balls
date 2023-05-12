@@ -24,19 +24,45 @@ class Game extends Phaser.Scene {
         this.load.image('paddle', 'assets/paddle.png');
     }
     create() {
-        this.rectangle1 = this.add.rectangle(1620,540,600,1080,'0xADD8E6');
-        ball1 = this.physics.add.sprite(650,500,'ball');
+        this.score = 0;
+        this.scorelabel = this.add.text(10,10, "SCORE ", {font: "50px"});
+        ball1 = this.physics.add.sprite(
+            this.physics.world.bounds.width / 2,
+            this.physics.world.bounds.height / 2,
+            'ball'
+        );
         ball1.setCollideWorldBounds(true);
         ball1.setBounce(1, 1);
-        paddle1 = this.physics.add.sprite(650,1000,'paddle');
+        paddle1 = this.physics.add.sprite(
+            this.physics.world.bounds.width / 2,
+            1080,
+            'paddle'
+        );
+        paddle1.setImmovable(true);
+        paddle1.setCollideWorldBounds(true);
+        cursors = this.input.keyboard.createCursorKeys();
+        this.physics.add.collider(ball1, paddle1);
     }
     update() {
         if (!isGameStarted) {
-            const initialVelocityX = 100;
-            const initialVelocityY = 100;
+            const initialVelocityX = (Math.random() *100) + 200;
+            const initialVelocityY = (Math.random() *100) + 200;
             ball1.setVelocityX(initialVelocityX);
             ball1.setVelocityY(initialVelocityY);
             isGameStarted = true;
+        }
+        
+        if(ball1.body.blocked.up) {
+            this.score += 1;
+            this.scorelabel.text = "SCORE " + this.score;
+        }
+        paddle1.body.setVelocityX(0);
+
+        if (cursors.left.isDown) {
+            paddle1.body.setVelocityX(-1000);
+        }
+        if (cursors.right.isDown) {
+            paddle1.body.setVelocityX(+1000);
         }
     }
 }
@@ -60,3 +86,4 @@ const game = new Phaser.Game({
 let ball1;
 let paddle1;
 let isGameStarted = false;
+let cursors;
