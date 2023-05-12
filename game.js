@@ -26,6 +26,7 @@ class Game extends Phaser.Scene {
     create() {
         this.score = 0;
         this.scorelabel = this.add.text(10,10, "SCORE ", {font: "50px"});
+
         ball1 = this.physics.add.sprite(
             this.physics.world.bounds.width / 2,
             this.physics.world.bounds.height / 2,
@@ -33,6 +34,7 @@ class Game extends Phaser.Scene {
         );
         ball1.setCollideWorldBounds(true);
         ball1.setBounce(1, 1);
+
         paddle1 = this.physics.add.sprite(
             this.physics.world.bounds.width / 2,
             1080,
@@ -42,6 +44,28 @@ class Game extends Phaser.Scene {
         paddle1.setCollideWorldBounds(true);
         cursors = this.input.keyboard.createCursorKeys();
         this.physics.add.collider(ball1, paddle1);
+
+        GameOverText = this.add.text(
+            150,
+            400,
+            'GAME OVER',
+            {font: "300px"}
+        );
+        GameOverText.setVisible(false);
+
+        Restart = this.add.text(
+            200,
+            700,
+            'Click anywhere to Restart',
+            {font: "100px"}
+        );
+        this.tweens.add({
+            targets: Restart,
+                alpha: {from:0, to:1},
+                duration: 1950,
+                repeat: -1,
+        })
+        Restart.setVisible(false);
     }
     update() {
         if (!isGameStarted) {
@@ -51,10 +75,18 @@ class Game extends Phaser.Scene {
             ball1.setVelocityY(initialVelocityY);
             isGameStarted = true;
         }
-        
+
         if(ball1.body.blocked.up) {
             this.score += 1;
             this.scorelabel.text = "SCORE " + this.score;
+        }
+
+        if(ball1.body.blocked.down) {
+            GameOverText.setVisible(true);
+            Restart.setVisible(true);
+            this.input.on('pointerdown',() => this.scene.start('intro'));
+            ball1.setVelocityX(0);
+            ball1.setVelocityY(0);
         }
         paddle1.body.setVelocityX(0);
 
@@ -74,7 +106,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Game], //Intro, Game
+    scene: [Intro, Game], //Intro, Game
     title: "Wall Ball Game",
     physics: {
         default: "arcade",
@@ -87,3 +119,5 @@ let ball1;
 let paddle1;
 let isGameStarted = false;
 let cursors;
+let GameOverText;
+let Restart;
