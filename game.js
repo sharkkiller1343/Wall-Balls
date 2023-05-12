@@ -37,6 +37,10 @@ class Game extends Phaser.Scene {
         ball1.setCollideWorldBounds(true);
         ball1.setBounce(1, 1);
 
+        //these grouping code are either scrape since I can't it get function with the update
+        //var ballGroup = this.add.group()
+        //ballGroup.add(ball1)
+
         paddle1 = this.physics.add.sprite(
             this.physics.world.bounds.width / 2, //960,
             this.physics.world.bounds.height - (ball1.body.height / 2 + 1), //1070,
@@ -71,19 +75,19 @@ class Game extends Phaser.Scene {
     }
     update() {
         if (!isGameStarted) {
-            const initialVelocityX = (Math.random() *100) + 200;
-            const initialVelocityY = (Math.random() *100) + 200;
+            const initialVelocityX = (Math.random() *800) + 100;
+            const initialVelocityY = (Math.random() *800) + 100;
             ball1.setVelocityX(initialVelocityX);
             ball1.setVelocityY(initialVelocityY);
             isGameStarted = true;
         }
 
         if(ball1.body.blocked.up) {
-            this.score += 10;
+            this.score += 1;
             this.scorelabel.text = "SCORE " + this.score;
         }
 
-        if(ball1.body.y > paddle1.body.y) { //ball1.body.blocked.down
+        if(ball1.body.y > paddle1.body.y) {
             GameOverText.setVisible(true);
             Restart.setVisible(true);
             this.input.on('pointerdown',() => this.scene.restart('game'));
@@ -92,9 +96,10 @@ class Game extends Phaser.Scene {
         }
         paddle1.body.setVelocityX(0);
 
-        if (this.score == 10) {
-            this.add.ball1
-        }
+        //coding that doesn't work or scrape
+        //if (this.score == 10) {     
+        //this.ballGroup.add(ball1);
+        //}
 
         if (cursors.left.isDown) {
             paddle1.body.setVelocityX(-1000);
@@ -112,7 +117,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Game], //Intro, Game
+    scene: [Intro, Game], //Intro, Game
     title: "Wall Ball Game",
     physics: {
         default: "arcade",
