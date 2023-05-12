@@ -25,6 +25,19 @@ class Game extends Phaser.Scene {
     }
     create() {
         this.rectangle1 = this.add.rectangle(1620,540,600,1080,'0xADD8E6');
+        ball1 = this.physics.add.sprite(650,500,'ball');
+        ball1.setCollideWorldBounds(true);
+        ball1.setBounce(1, 1);
+        paddle1 = this.physics.add.sprite(650,1000,'paddle');
+    }
+    update() {
+        if (!isGameStarted) {
+            const initialVelocityX = 100;
+            const initialVelocityY = 100;
+            ball1.setVelocityX(initialVelocityX);
+            ball1.setVelocityY(initialVelocityY);
+            isGameStarted = true;
+        }
     }
 }
 
@@ -37,4 +50,13 @@ const game = new Phaser.Game({
     },
     scene: [Game], //Intro, Game
     title: "Wall Ball Game",
+    physics: {
+        default: "arcade",
+        arcade: {
+            debug: false
+        }
+    }
 });
+let ball1;
+let paddle1;
+let isGameStarted = false;
