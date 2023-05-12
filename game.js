@@ -24,6 +24,7 @@ class Game extends Phaser.Scene {
         this.load.image('paddle', 'assets/paddle.png');
     }
     create() {
+        isGameStarted = false;
         this.score = 0;
         this.scorelabel = this.add.text(10,10, "SCORE ", {font: "50px"});
 
@@ -36,8 +37,8 @@ class Game extends Phaser.Scene {
         ball1.setBounce(1, 1);
 
         paddle1 = this.physics.add.sprite(
-            this.physics.world.bounds.width / 2,
-            1080,
+            this.physics.world.bounds.width / 2, //960,
+            this.physics.world.bounds.height - (ball1.body.height / 2 + 1), //1070,
             'paddle'
         );
         paddle1.setImmovable(true);
@@ -81,10 +82,10 @@ class Game extends Phaser.Scene {
             this.scorelabel.text = "SCORE " + this.score;
         }
 
-        if(ball1.body.blocked.down) {
+        if(ball1.body.y > paddle1.body.y) { //ball1.body.blocked.down
             GameOverText.setVisible(true);
             Restart.setVisible(true);
-            this.input.on('pointerdown',() => this.scene.start('intro'));
+            this.input.on('pointerdown',() => this.scene.restart('game'));
             ball1.setVelocityX(0);
             ball1.setVelocityY(0);
         }
@@ -106,7 +107,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Game], //Intro, Game
+    scene: [Game], //Intro, Game
     title: "Wall Ball Game",
     physics: {
         default: "arcade",
@@ -115,9 +116,9 @@ const game = new Phaser.Game({
         }
     }
 });
+let isGameStarted = false;
 let ball1;
 let paddle1;
-let isGameStarted = false;
 let cursors;
 let GameOverText;
 let Restart;
